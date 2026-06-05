@@ -76,6 +76,59 @@ bin/kafka-console-consumer.sh --topic phishing-sites --bootstrap-server localhos
 bin/kafka-console-consumer.sh --topic phishing-sites --bootstrap-server localhost:9092 --from-beginning --max-messages 3
 ```
 
+### Topics
+
+kafka-topics.sh
+
+se encuentra en la carpera `bin/` junto a otras herramientas de kafka
+
+Opciones Requeridas
+
+- `--bootstrap-server`: especidifica con qué sistema kafka debe comunicarse el valor por defecto es localhost-9092
+
+- `--topic`: temas
+
+- `--create`:
+
+Opcionales
+
+- `--replication-factor`: Define el factor de replicación  del tema.
+
+- `--partitions`: Especifica el numero de particiones manualmente.
+
+- `--describe`: Nos da detalles sobre la configuraciones del tema.
+
+- `--delete`: Elimnará el tema de un servidor/cluster de Kafka
+
+> [!DANGER]
+> Esto también eliminara todos los mensajes de los temas
+
+
+
+**Ejemplos:**
+
+```bash
+bin/kafka-topics.sh --bootstrap-server localhost:9092 \
+--topic orders --create
+
+# Especificando las particiones y el factor de replicación
+
+bin\kafka-topics.sh --bootstrap-server localhost:9092 \
+--topic orders --create --replication-factor 3 \
+--partitions 3 
+
+# Obtener info del tema
+bin/kafka-topics.sh --bootstrap-server localhost:9092 \
+--topic orders --describe
+
+# Eliminar el tema
+bin/kafka-topics.sh --bootstrap-server localhost:9092 \
+--topic orders --delete
+
+bin/kafka-topics.sh --bootstrap-server localhost:9092 \
+--topic phishing-sites --delete
+
+```
 
 
 ## Comandos
@@ -235,3 +288,9 @@ Broker count: 1
 `bin/kafka-server-stop.sh config/server.properties`
 
 `bin/zookeeper-server-stop.sh config/zookeeper.properties`
+
+## Troubleshooting
+
+`ps ac | grep kafka`: verifica si hay un servicio llamado kafka en ejecución.
+
+`netstat -tlpn | grep 9092`: verifica que se escuchando en el puerto 9092
